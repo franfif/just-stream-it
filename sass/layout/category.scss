@@ -1,0 +1,13 @@
+@import "carousel";
+
+.category {
+    display: grid;
+
+    header {
+        display: grid;
+        padding-inline: 2.5rem;
+        gap: 1ex;
+        font-size: large;
+        margin: 0;
+    }
+}
