@@ -7,21 +7,21 @@ function toggleMenu() {
 
 }
 
-let modal = document.getElementById("myModal");
-let slides = document.querySelectorAll(".slide");
-let close_btn = document.querySelector(".modal__close-btn");
+let modalMovieDetails = document.getElementById("myModal");
+let modalOpeners = document.querySelectorAll(".modal-movie-details--opener");
+let modalCloser = document.querySelector(".modal__close-btn");
 
-slides.forEach(slide => {
-    slide.addEventListener('click', () => {
-        modal.style.display = "block";
+modalOpeners.forEach(opener => {
+    opener.addEventListener('click', () => {
+        modalMovieDetails.style.display = "block";
     })
 })
 
-close_btn.addEventListener('click', () => {
-    modal.style.display = "none";
+modalCloser.addEventListener('click', () => {
+    modalMovieDetails.style.display = "none";
 })
 window.addEventListener('click', event => {
-    if (event.target == modal) {
-        modal.style.display = "none";
+    if (event.target == modalMovieDetails) {
+        modalMovieDetails.style.display = "none";
     }
 })
