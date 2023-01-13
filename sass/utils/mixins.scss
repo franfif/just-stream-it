@@ -1,4 +1,10 @@
 // Media Queries
+@mixin larger-than-phone {
+    @media only screen and (min-width: 600px) {
+        @content
+    }
+}
+
 @mixin larger-than-tablet {
     @media only screen and (min-width: 768px) {
         @content
