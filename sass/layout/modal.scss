@@ -1,0 +1,34 @@
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 2;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0, 0, 0);
+    background-color: $first-color-transparent;
+
+    .modal__content {
+        background-color: $second-color;
+        margin: 15% auto;
+        padding: 20px;
+        border: 1px solid $third-color;
+        width: 80%;
+
+        .modal__close-btn {
+            color: $fourth-color;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+
+            &:hover,
+            &:focus {
+                color: $first-color;
+                text-decoration: none;
+                cursor: pointer;
+            }
+        }
+    }
+}
