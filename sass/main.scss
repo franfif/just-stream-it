@@ -14,3 +14,71 @@
         top: 115px;
     }
 }
+
+.best-movie {
+    display: grid;
+    grid-template-areas:
+        "img img img"
+        "ttl ttl ttl"
+        "btn btn btn"
+        "sum sum sum";
+    gap: 10px;
+    background-color: $second-color;
+    padding: 10px 5%;
+    margin: 0 auto;
+    justify-items: center;
+    align-items: center;
+
+    @include larger-than-phone {
+        grid-template-areas:
+            'ttl ttl img'
+            'btn btn img'
+            'sum sum img';
+        justify-items: left;
+    }
+
+    @include larger-than-tablet {
+        width: 80%;
+    }
+}
+
+.best-movie__title {
+    grid-area: ttl;
+    font-size: 3rem;
+}
+
+.best-movie__button {
+    grid-area: btn;
+    background-color: $third-color;
+    width: 100px;
+    height: 40px;
+    border-radius: 1em;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    cursor: pointer;
+}
+
+
+.best-movie__summary {
+    grid-area: sum;
+}
+
+.best-movie__image {
+    grid-area: img;
+
+    cursor: pointer;
+
+    img {
+        width: 100%;
+        max-width: 200px;
+    }
+}
+
+.arrow-right {
+    width: 0;
+    height: 0;
+    border-top: 12px solid transparent;
+    border-bottom: 12px solid transparent;
+    border-left: 20px solid $fourth-color;
+}
