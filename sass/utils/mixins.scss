@@ -19,6 +19,16 @@
 
 
 // Header
+
+// Logo
+@mixin small_logo {
+    max-height: 66px;
+}
+
+@mixin large_logo {
+    max-height: 110px !important;
+}
+
 // Menu
 @mixin menu__button--regular {
     display: block;
