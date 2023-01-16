@@ -3,7 +3,6 @@
     grid-auto-flow: column;
     grid-auto-columns: auto;
     gap: 10px;
-    // padding-inline: 2.5rem;
     padding-block-end: 2.5rem;
 
     overflow-x: auto;
@@ -15,7 +14,6 @@
         padding-inline: 2.5rem;
         scroll-padding-inline-start: 2.5rem;
     }
-
 
     &>figure {
         scroll-snap-align: start;
