@@ -78,10 +78,11 @@ body {
 }
 .header .header__logo img {
   max-height: 66px;
+  transition: 0.2s;
 }
 @media only screen and (min-width: 768px) {
-  .header .header__logo img {
-    max-height: 110px;
+  .header .header__logo img.scrolled-up {
+    max-height: 110px !important;
   }
 }
 .header .header__nav {
@@ -255,7 +256,7 @@ body {
 
 .best-movie {
   display: grid;
-  grid-template-areas: "img img img" "ttl ttl ttl" "btn btn btn" "sum sum sum";
+  grid-template-areas: "ttl ttl ttl" "img img img" "btn btn btn" "sum sum sum";
   gap: 10px;
   background-color: #455d7a;
   padding: 10px 5%;
