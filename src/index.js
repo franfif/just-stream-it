@@ -26,14 +26,12 @@ window.addEventListener('click', event => {
     }
 })
 
-window.onscroll = function () { scrollFunction() };
+window.onscroll = function () { reduceHeader() };
 
-function scrollFunction() {
+function reduceHeader() {
     if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 50) {
         document.querySelector(".header__logo img").classList.remove("scrolled-up");
     } else {
         document.querySelector(".header__logo img").classList.add("scrolled-up");
     }
 }
-
-// https://stackoverflow.com/questions/56392199/make-a-button-to-scroll-horizontally-in-div
