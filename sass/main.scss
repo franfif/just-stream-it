@@ -18,8 +18,8 @@
 .best-movie {
     display: grid;
     grid-template-areas:
-        "img img img"
         "ttl ttl ttl"
+        "img img img"
         "btn btn btn"
         "sum sum sum";
     gap: 10px;
