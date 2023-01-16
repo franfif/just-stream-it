@@ -150,12 +150,12 @@
 
         &::before {
             margin-top: 0px;
-            transform: rotate(315deg);
+            transform: rotate(45deg);
         }
 
         &::after {
             margin-top: 0px;
-            transform: rotate(-315deg);
+            transform: rotate(-45deg);
         }
     }
 
