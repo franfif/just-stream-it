@@ -35,3 +35,21 @@ function reduceHeader() {
         document.querySelector(".header__logo img").classList.add("scrolled-up");
     }
 }
+
+let arrowLeft = document.querySelector(".carousel__arrow-left");
+let arrowRight = document.querySelector(".carousel__arrow-right");
+
+arrowLeft.addEventListener('click', (event) => myScroll(event, toTheLeft = true));
+arrowRight.addEventListener('click', (event) => myScroll(event, toTheLeft = false));
+
+function myScroll(event, toTheLeft = false) {
+    let vw = visualViewport.width - 100;
+    let delta = toTheLeft ? -vw : vw;
+    let slide = event.target.parentNode;
+    console.log(slide.scrollLeft);
+    slide.scroll({
+        left: slide.scrollLeft + delta,
+        behavior: 'smooth'
+    });
+
+}
