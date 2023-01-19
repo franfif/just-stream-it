@@ -1,7 +1,9 @@
-@import "carousel";
+@import "slider";
+
 
 .category {
     display: grid;
+    padding-bottom: .3rem;
 
     header {
         display: grid;
