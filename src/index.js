@@ -36,20 +36,22 @@ function reduceHeader() {
     }
 }
 
-let arrowLeft = document.querySelector(".carousel__arrow-left");
-let arrowRight = document.querySelector(".carousel__arrow-right");
+let leftArrows = document.querySelectorAll(".arrow-holder__left");
+let rightArrows = document.querySelectorAll(".arrow-holder__right");
 
-arrowLeft.addEventListener('click', (event) => myScroll(event, toTheLeft = true));
-arrowRight.addEventListener('click', (event) => myScroll(event, toTheLeft = false));
+leftArrows.forEach(arrow => {
+    arrow.addEventListener('click', (event) => myScroll(event, toTheLeft = true));
+});
+rightArrows.forEach(arrow => {
+    arrow.addEventListener('click', (event) => myScroll(event, toTheLeft = false));
+});
 
 function myScroll(event, toTheLeft = false) {
-    let vw = visualViewport.width - 100;
-    let delta = toTheLeft ? -vw : vw;
-    let slide = event.target.parentNode;
-    console.log(slide.scrollLeft);
-    slide.scroll({
-        left: slide.scrollLeft + delta,
+    let scrollValue = visualViewport.width - 180; //180 = max-width of figure caption.
+    scrollValue = toTheLeft ? -scrollValue : scrollValue;
+    slider = event.target.closest(".slider__container").querySelector(".slider");
+    slider.scroll({
+        left: slider.scrollLeft + scrollValue,
         behavior: 'smooth'
     });
-
 }
