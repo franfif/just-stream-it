@@ -1,9 +1,9 @@
-.carousel {
+.slider {
     display: grid;
     grid-auto-flow: column;
     grid-auto-columns: auto;
     gap: 10px;
-    padding-block-end: 2.5rem;
+    // padding-block-end: 2.5rem;
 
     overflow-x: auto;
     overscroll-behavior-x: contain;
