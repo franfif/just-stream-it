@@ -138,3 +138,7 @@
     display: grid;
     position: relative;
 }
+
+.no-scroll {
+    overflow: hidden;
+}
