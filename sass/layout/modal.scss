@@ -30,5 +30,16 @@
                 cursor: pointer;
             }
         }
+
+        .modal__cover {
+            margin: 0 calc(50% - (180px/2)) 20px;
+            display: block;
+
+            @include larger-than-phone {
+                float: left;
+                margin: 2% 5%;
+            }
+        }
+
     }
 }
