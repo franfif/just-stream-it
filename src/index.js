@@ -184,8 +184,9 @@ function extractTop8Movies(url, callback, topMovies) {
         .then(res => res.json())
         .then(data => [topMovies.concat(data.results), data.next])
         .then(([newTopMovies, next]) => {
-            if (newTopMovies.length < 8) {
-                extractTop8Movies(next, callback, newTopMovies)
+            // if next is null => callback
+            if (!next && newTopMovies.length < 8) {
+                extractTop8Movies(next, callback, newTopMovies);
             } else {
                 callback(newTopMovies);
             }
@@ -193,19 +194,21 @@ function extractTop8Movies(url, callback, topMovies) {
 }
 
 function populateTopMovies(data) {
-    topRatedCategory = document.querySelector(".top-rated-movies");
-    slider = topRatedCategory.querySelector(".slider");
+    const topRatedCategory = document.querySelector(".top-rated-movies");
+    const slider = topRatedCategory.querySelector(".slider");
+    // test here for the size of data
 
+    let figures = "";
     // Create a new figure for the first 7 movies
     for (let i = 0; i < 7; i++) {
-        slider.innerHTML += `<figure id="${data[i].id}" class="movie-id slide modal-movie-details--opener">
-                            <picture><img
-                                    src="${data[i].image_url}"
-                                    alt="${data[i].title}"></picture>
-                            <figcaption>${data[i].title}</figcaption>
-                        </figure>`
+        figures += `<figure id="${data[i].id}" class="movie-id slide modal-movie-details--opener">
+                        <picture><img
+                                src="${data[i].image_url}"
+                                alt="${data[i].title}"></picture>
+                        <figcaption>${data[i].title}</figcaption>
+                    </figure>`
     };
-
+    slider.innerHTML += figures;
     //call function to add modal opener on all figures
     modalUp();
 }
