@@ -150,7 +150,7 @@ function populateModalElement(key, movieInfo) {
             }
             break;
         case 'rated':
-            // Fix a typo
+            // Fix a typo in the backend
             if (movieInfo === 'Not rated or unkown rating') {
                 movieInfo = 'Not rated or unknown rating'
             }
