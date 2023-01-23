@@ -156,6 +156,8 @@ function populateModalElement(key, movieInfo) {
             }
             break;
     };
+
+    let modalList = document.querySelector(".modal__list");
     modalList.innerHTML += `<li class="${key}">${movieFields[key]}: ${movieInfo}</li>`;
 }
 
