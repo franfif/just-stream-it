@@ -192,6 +192,11 @@ function extractTop8Movies(url, callback, topMovies) {
             }
         })
 }
+async function getMovies(url) {
+    return fetch(url)
+        .then(res => res.json())
+        .then(data => [data.results, data.next])
+}
 
 function populateTopMovies(data) {
     const topRatedCategory = document.querySelector(".top-rated-movies");
@@ -213,4 +218,42 @@ function populateTopMovies(data) {
     modalUp();
 }
 
-extractTop8Movies('http://localhost:8000/api/v1/titles/', populateTopMovies, []);
+// extractTop8Movies('http://localhost:8000/api/v1/titles/', populateTopMovies, []);
+
+async function get7Movies(url, movies) {
+    const [newMovies, next] = await getMovies(url);
+    movies = movies.concat(newMovies);
+
+    if (next && movies.length < 7) {
+        return await get7Movies(next, movies);
+    } else {
+        return movies;
+    }
+}
+async function anotherPopulate(url) {
+    const movies = await get7Movies(url, []);
+    console.log('anotherPopulate movies');
+    console.log(movies);
+
+    const topRatedCategory = document.querySelector(".top-rated-movies");
+    const slider = topRatedCategory.querySelector(".slider");
+    // test here for the size of data
+
+    let figures = "";
+    // Create a new figure for the first 7 movies
+    for (let i = 0; i < movies.length; i++) {
+        console.log('anotherPopulate movies[i]' + i);
+        console.log(movies[i]);
+        figures += `<figure id="${movies[i].id}" class="movie-id slide modal-movie-details--opener">
+                            <picture><img
+                                    src="${movies[i].image_url}"
+                                    alt="${movies[i].title}"></picture>
+                            <figcaption>${movies[i].title}</figcaption>
+                        </figure>`
+    };
+    slider.innerHTML += figures;
+    //call function to add modal opener on all figures
+    modalUp();
+}
+
+anotherPopulate("http://localhost:8000/api/v1/titles/?genre=drama&sort_by=-imdb_score");
