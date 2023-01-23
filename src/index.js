@@ -100,7 +100,7 @@ movieFields = resetMovieFields();
 function resetMovieFields() {
     return {
         image_url: "Movie Cover",
-        title: "Title",
+        original_title: "Title",
         directors: "Director",
         actors: "Actor",
         genres: "Genre",
@@ -133,7 +133,7 @@ function populateModalElement(key, movieInfo) {
         case 'image_url':
             document.querySelector(".modal__cover").setAttribute('src', movieInfo);
             return;
-        case 'title':
+        case 'original_title':
             document.querySelector(".modal__title").innerHTML = movieInfo;
             return;
         case 'date_published':
