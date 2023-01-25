@@ -1,96 +1,34 @@
-/* NavBar */
-// Reduce logo and thus navbar height if page is scrolled down
-window.onscroll = () => {
-    logo = document.querySelector(".header__logo img");
-    if (document.documentElement.scrollTop > 50) {
-        logo.classList.remove("scrolled-up");
-    } else {
-        logo.classList.add("scrolled-up");
+/* API data */
+// Categories
+const categories = [
+    {
+        htmlClass: ".top-rated-movies",
+        param: "?sort_by=-imdb_score",
+        name: "Top Rated Movies",
+        featured: true
+    },
+    {
+        htmlClass: ".first-category",
+        param: "?genre=drama&sort_by=-imdb_score",
+        name: "Drama",
+        featured: false
+    },
+    {
+        htmlClass: ".second-category",
+        param: "?genre=animation&sort_by=-imdb_score",
+        name: "Animation",
+        featured: false
+    },
+    {
+        htmlClass: ".third-category",
+        param: "?genre=action&sort_by=-imdb_score",
+        name: "Action",
+        featured: false
     }
-}
+];
 
-// Add or remove classes menu for display
-function toggleMenu() {
-    let menuList = document.querySelector(".nav__list");
-    let burgerLines = document.querySelector(".menu__button");
-
-    menuList.classList.toggle("nav__list--closed");
-    burgerLines.classList.toggle("menu__button--checked");
-}
-
-/* Modal */
-function modalUp() {
-    let modalMovieDetails = document.getElementById("myModal");
-    let modalOpeners = document.querySelectorAll(".modal-movie-details--opener");
-    let modalCloser = document.querySelector(".modal__close-btn");
-    let modalList = document.querySelector(".modal__list");
-
-    // Get the closest ancestor with a movie-id class
-    function getMovieId(element) {
-        console.log('element');
-        console.log(element);
-        console.log('element.closest(".movie-id")');
-        console.log(element.closest(".movie-id"));
-        return element.closest(".movie-id").id;
-    }
-    // Create eventlistener for each element able to open a modal
-    modalOpeners.forEach(opener => {
-        opener.addEventListener('click', (event) => {
-            console.log('opener works');
-            getMovieInfo('http://localhost:8000/api/v1/titles/' + getMovieId(event.target));
-            modalMovieDetails.style.display = "block";
-            document.body.classList.add("no-scroll");
-        })
-    })
-
-    // Manage the closing of a modal
-    function closingModal() {
-        // Hide the modal
-        modalMovieDetails.style.display = "none";
-        // Reset all the movie fields that may have been modified
-        movieFields = resetMovieFields();
-        // Empty the content of the modal
-        modalList.innerHTML = "";
-        // Allow back scrolling on the main page
-        document.body.classList.remove("no-scroll");
-    }
-
-    // Create eventlistener for the closing button in the modal
-    modalCloser.addEventListener('click', closingModal)
-
-    // Close the modal if user click outside of it
-    window.addEventListener('click', event => {
-        if (event.target == modalMovieDetails) {
-            closingModal();
-        }
-    })
-}
-
-/* Slider */
-// Get all arrows
-let leftArrows = document.querySelectorAll(".arrow-holder__left");
-let rightArrows = document.querySelectorAll(".arrow-holder__right");
-
-// Add eventlistener to arrows to activate horizontal scroll
-leftArrows.forEach(arrow => {
-    arrow.addEventListener('click', (event) => scrollHorizontal(event, toTheLeft = true));
-})
-rightArrows.forEach(arrow => {
-    arrow.addEventListener('click', (event) => scrollHorizontal(event, toTheLeft = false));
-})
-
-// Define horizontal scroll
-function scrollHorizontal(event, toTheLeft = false) {
-    // Make sure any cut thumbnail will be shown after scroll
-    let scrollValue = visualViewport.width - 180; //180 = max-width of figure caption.
-    scrollValue = toTheLeft ? -scrollValue : scrollValue;
-    // Get slider element from the category
-    slider = event.target.closest(".slider__container").querySelector(".slider");
-    slider.scroll({
-        left: slider.scrollLeft + scrollValue,
-        behavior: 'smooth'
-    });
-}
+// API Endpoint
+const apiEndpoint = "http://localhost:8000/api/v1/titles/";
 
 /* Movie information */
 // Init movieField object
