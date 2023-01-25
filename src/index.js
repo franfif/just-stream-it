@@ -111,11 +111,11 @@ async function getFeaturedMovieHTMLElement(movieId) {
     const movie = await getMovieInfo(movieId);
     const featuredMovie = `<div  class="featured-movie movie-id">
                                 <div class="featured-movie__title">${movie.original_title}</div>
-                                <btn class="featured-movie__button modal-movie-details--opener">
+                                <btn movieId="${movie.id}" class="featured-movie__button" onclick="openingModal(this.getAttribute('movieId'))">
                                     <span class="arrow-right"></span><span>Play</span>
                                 </btn>
                                 <div class="featured-movie__summary">${movie.long_description}</div>
-                                <div class="featured-movie__image modal-movie-details--opener">
+                                <div movieId="${movie.id}" class="featured-movie__image" onclick="openingModal(this.getAttribute('movieId'))">
                                     <img src="${movie.image_url}"
                                         alt="${movie.title}"
                                         onerror="useDummyImage(this)">
@@ -216,7 +216,7 @@ async function fillPage() {
     };
 
     // Call modalUp function to add modal opener on all figures
-    modalUp();
+    // modalUp();
 }
 
 // Get movie info and call function to fill the html modal element
