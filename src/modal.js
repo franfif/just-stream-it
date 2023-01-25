@@ -3,21 +3,30 @@ const modalList = document.querySelector(".modal__list");
 const modalMovieDetails = document.getElementById("myModal");
 
 /* Modal */
-function modalUp() {
-    const modalOpeners = document.querySelectorAll(".modal-movie-details--opener");
+// function modalUp() {
+//     console.log('call ModalUp');
+//     const modalOpeners = document.querySelectorAll(".modal-movie-details--opener");
+//     console.log('modalOpeners');
+//     console.log(modalOpeners);
 
-    // Get the closest ancestor with a movie-id class
-    function getMovieId(element) {
-        return element.closest(".movie-id").id;
-    }
-    // Create eventlistener for each element able to open a modal
-    modalOpeners.forEach(opener => {
-        opener.addEventListener('click', (event) => {
-            fillModal('http://localhost:8000/api/v1/titles/' + getMovieId(event.target));
-            modalMovieDetails.style.display = "block";
-            document.body.classList.add("no-scroll");
-        })
-    })
+//     // Get the movieId attribute value from the closest ancestor with a movie-id class
+//     function getMovieId(element) {
+//         return element.closest(".movie-id").getAttribute('movieId');
+//     }
+//     // Create eventlistener for each element able to open a modal
+//     modalOpeners.forEach(opener => {
+//         opener.addEventListener('click', (event) => {
+//             fillModal(getMovieId(event.target));
+//             modalMovieDetails.style.display = "block";
+//             document.body.classList.add("no-scroll");
+//         })
+//     })
+// }
+
+function openingModal(movieId) {
+    fillModal(movieId);
+    modalMovieDetails.style.display = "block";
+    document.body.classList.add("no-scroll");
 }
 
 // Manage the closing of a modal
