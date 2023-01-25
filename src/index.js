@@ -31,38 +31,25 @@ const categories = [
 const apiEndpoint = "http://localhost:8000/api/v1/titles/";
 
 /* Movie information */
-// Init movieField object
-movieFields = resetMovieFields();
+// Array where all the movie information downloaded from the API will be stored, refreshed everytime the page is refreshed
+const moviesFromApi = [];
 
-// Reset movieFields object to remove any changes in the values
-function resetMovieFields() {
-    return {
-        image_url: "Movie Cover",
-        original_title: "Title",
-        directors: "Director",
-        actors: "Actor",
-        genres: "Genre",
-        duration: "Duration",
-        date_published: "Release Date",
-        rated: "MPAA rating",
-        imdb_score: "IMDb score",
-        countries: "Country of origin",
-        worldwide_gross_income: "Box Office result",
-        long_description: "Movie summary",
-        description: "Summary"
-    };
-}
-
-// Change movieFields value to plural and return array to string list
-function makePlural(key, arrayToList) {
-    // Test if the array to test is an array that contains more than one element
-    if (Array.isArray(arrayToList) && arrayToList.length > 1) {
-        movieFields[key] += 's';
-        return arrayToList.join(', ');
-    } else {
-        return arrayToList;
-    }
-}
+// All fields and the matching UI name 
+const movieFields = {
+    image_url: "Movie Cover",
+    original_title: "Title",
+    directors: "Director",
+    actors: "Actor",
+    genres: "Genre",
+    duration: "Duration",
+    date_published: "Release Date",
+    rated: "MPAA rating",
+    imdb_score: "IMDb score",
+    countries: "Country of origin",
+    worldwide_gross_income: "Box Office result",
+    long_description: "Movie summary",
+    description: "Summary"
+};
 
 // Add a new element to the modal element in the DOM
 function populateModalElement(key, movieInfo) {
@@ -99,99 +86,186 @@ function populateModalElement(key, movieInfo) {
     modalList.innerHTML += `<li class="${key}">${movieFields[key]}: ${movieInfo}</li>`;
 }
 
-// Get the data from database with fetch function and call a callback function with the it
-function extractJson(url, field, callback) {
-    fetch(url)
-        .then(res => res.json())
-        .then(data => {
-            // Call a function with the data retrieved
-            callback(field, data[field]);
-        });
-};
-
-// Loop through the movie fields, get the matching data to create a DOM element 
-function getMovieInfo(url) {
-    for (const key in movieFields) {
-        extractJson(url, key, populateModalElement);
-    }
-}
-
-// Get recursevly the first 8+ movies fronm the url provided
-function extractTop8Movies(url, callback, topMovies) {
-    fetch(url)
-        .then(res => res.json())
-        .then(data => [topMovies.concat(data.results), data.next])
-        .then(([newTopMovies, next]) => {
-            // if next is null => callback
-            if (!next && newTopMovies.length < 8) {
-                extractTop8Movies(next, callback, newTopMovies);
-            } else {
-                callback(newTopMovies);
-            }
-        })
-}
+// Get movie data for multiple movies from the API
 async function getMovies(url) {
     return fetch(url)
         .then(res => res.json())
         .then(data => [data.results, data.next])
 }
 
-function populateTopMovies(data) {
-    const topRatedCategory = document.querySelector(".top-rated-movies");
-    const slider = topRatedCategory.querySelector(".slider");
-    // test here for the size of data
-
-    let figures = "";
-    // Create a new figure for the first 7 movies
-    for (let i = 0; i < 7; i++) {
-        figures += `<figure id="${data[i].id}" class="movie-id slide modal-movie-details--opener">
-                        <picture><img
-                                src="${data[i].image_url}"
-                                alt="${data[i].title}"></picture>
-                        <figcaption>${data[i].title}</figcaption>
-                    </figure>`
-    };
-    slider.innerHTML += figures;
-    //call function to add modal opener on all figures
-    modalUp();
+// Get movie data for a single movie from the API
+async function getMovie(url) {
+    return fetch(url)
+        .then(res => res.json())
 }
 
-// extractTop8Movies('http://localhost:8000/api/v1/titles/', populateTopMovies, []);
-
-async function get7Movies(url, movies) {
-    const [newMovies, next] = await getMovies(url);
+// Return movie information from the API endpoint for a given number of movies
+async function getNMovieIds(url, numberOfMovies, movies = []) {
+    const [newMovies, nextUrl] = await getMovies(url);
     movies = movies.concat(newMovies);
 
-    if (next && movies.length < 7) {
-        return await get7Movies(next, movies);
+    if (nextUrl && movies.length < numberOfMovies) {
+        return await getNMovieIds(nextUrl, numberOfMovies, movies);
     } else {
-        return movies;
+        movies = movies.slice(0, numberOfMovies);
+        const movieIds = movies.map(x => x.id);
+        await storeMovieInfo(movieIds);
+        return movieIds;
     }
 }
-async function anotherPopulate(url) {
-    const movies = await get7Movies(url, []);
-    console.log('anotherPopulate movies');
-    console.log(movies);
 
-    const topRatedCategory = document.querySelector(".top-rated-movies");
-    const slider = topRatedCategory.querySelector(".slider");
-    // test here for the size of data
+async function storeMovieInfo(ids) {
+    for (let id of ids) {
+        if (!moviesFromApi.some(movie => movie.id === id)) {
+            movieInfo = await getMovie(apiEndpoint + id)
+            moviesFromApi.push(movieInfo);
+        }
+    }
+}
 
+// Create html figure elements from movie data
+function getMovieHTMLFigures(movieIds) {
+    const movies = movieIds.map(movieId => moviesFromApi.filter(movie => movie.id === movieId)[0]);
     let figures = "";
-    // Create a new figure for the first 7 movies
-    for (let i = 0; i < movies.length; i++) {
-        console.log('anotherPopulate movies[i]' + i);
-        console.log(movies[i]);
-        figures += `<figure id="${movies[i].id}" class="movie-id slide modal-movie-details--opener">
-                            <picture><img
-                                    src="${movies[i].image_url}"
-                                    alt="${movies[i].title}"></picture>
-                            <figcaption>${movies[i].title}</figcaption>
-                        </figure>`
+    movies.forEach(movie => {
+        figures += `<figure id="${movie.id}" class="movie-id slide modal-movie-details--opener">
+                        <picture>
+                            <img
+                            src="${movie.image_url}"
+                            alt="${movie.original_title}"
+                            onerror="useDummyImage(this)">
+                        </picture>
+                        <figcaption>${movie.original_title}</figcaption>
+                    </figure>`;
+    });
+    return figures;
+}
+
+// Create html element with featured movie
+function getFeaturedMovieHTMLElement(movieId) {
+    const movie = moviesFromApi.filter(movie => movie.id === movieId)[0];
+    const featuredMovie = `<div id="${movie.id}" class="featured-movie movie-id">
+                                <div class="featured-movie__title">${movie.original_title}</div>
+                                <btn class="featured-movie__button modal-movie-details--opener">
+                                    <span class="arrow-right"></span><span>Play</span>
+                                </btn>
+                                <div class="featured-movie__summary">${movie.long_description}</div>
+                                <div class="featured-movie__image modal-movie-details--opener">
+                                    <img src="${movie.image_url}"
+                                        alt="${movie.title}"
+                                        onerror="useDummyImage(this)">
+                                </div>
+                            </div>`;
+    return featuredMovie;
+}
+
+function fillFeaturedMovie(movieId) {
+    const featuredMovieContainer = document.querySelector(".featured-movie__container");
+    featuredMovieContainer.innerHTML = getFeaturedMovieHTMLElement(movieId);
+}
+
+function fillSliders(category, movieIds) {
+    const newSection = `<section class="category ${category.htmlClass}">
+                            <header>
+                                <h2 class="category__title">${category.name}</h2>
+                            </header>
+                            <div class="slider__container">
+                                <div class="arrow-holder__left">
+                                    <div class="slider__arrow"></div>
+                                </div>
+                                <div class="slider">${getMovieHTMLFigures(movieIds)}</div>
+                                <div class="arrow-holder__right">
+                                    <div class="slider__arrow"></div>
+                                </div>
+                            </div>
+                        </section>`
+
+    const categoriesHTML = document.querySelector(".categories");
+    categoriesHTML.innerHTML += newSection;
+}
+
+// Change movieFields value to plural and return array to string list
+function makePlural(name, content) {
+    // Test if the array to test is an array that contains more than one element
+    if (Array.isArray(content) && content.length > 1) {
+        name += 's';
+        const formatter = new Intl.ListFormat('en', { style: 'long', type: 'conjunction' });
+        return [name, formatter.format(content)];
+    } else {
+        return [name, content];
+    }
+}
+
+function fillModalElement(key, name, content) {
+    [name, content] = makePlural(name, content);
+    switch (key) {
+        case 'image_url':
+            document.querySelector(".modal__cover").setAttribute('src', content);
+            return;
+        case 'original_title':
+            document.querySelector(".modal__title").innerHTML = content;
+            return;
+        case 'date_published':
+            content = new Date(content).toLocaleDateString('en-us', { year: "numeric", month: "long", day: "numeric" })
+            break;
+        case 'duration':
+            content += " minutes";
+            break;
+        case 'worldwide_gross_income':
+            if (content) {
+                content = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(content);
+            } else {
+                content = 'Unknown revenue';
+            }
+            break;
+        case 'rated':
+            // Fix a typo in the backend
+            if (content === 'Not rated or unkown rating') {
+                content = 'Not rated or unknown rating'
+            }
+            break;
+        case 'description':
+            return;
     };
-    slider.innerHTML += figures;
-    //call function to add modal opener on all figures
+
+    let modalList = document.querySelector(".modal__list");
+    modalList.innerHTML += `<li class="${key}">${name}: ${content}</li>`;
+}
+
+function slidersScrollLeftZero() {
+    const sliders = document.querySelectorAll(".slider");
+    sliders.forEach(slider => slider.scrollLeft = 0);
+}
+
+async function fillPage() {
+    for (const category of categories) {
+        const movieIds = await getNMovieIds(apiEndpoint + category.param, category.featured ? 8 : 7);
+
+        if (category.featured) {
+            fillFeaturedMovie(movieIds.shift());
+        }
+
+        fillSliders(category, movieIds);
+        slidersScrollLeftZero();
+    };
+
+    // Call modalUp function to add modal opener on all figures
     modalUp();
 }
 
-anotherPopulate("http://localhost:8000/api/v1/titles/?genre=drama&sort_by=-imdb_score");
+// Get movie info and call function to fill the html modal element
+async function fillModal(url) {
+    const movieInfo = await getMovie(url);
+    for (const key in movieFields) {
+        fillModalElement(key, movieFields[key], movieInfo[key]);
+    }
+}
+
+fillPage();
+
+// Replace any image not loaded by a dummy image
+function useDummyImage(image) {
+    image.onerror = "";
+    image.src = "./public/image/No_movie_image.png";
+    return true;
+};
