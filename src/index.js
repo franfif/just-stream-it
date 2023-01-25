@@ -135,11 +135,11 @@ async function fillSliders(category, movieIds) {
                                 <h2 class="category__title">${category.name}</h2>
                             </header>
                             <div class="slider__container">
-                                <div class="arrow-holder__left">
+                                <div class="arrow-holder__left" onclick="scrollHorizontally(this, true)">
                                     <div class="slider__arrow"></div>
                                 </div>
-                                <div class="slider">${getMovieHTMLFigures(movieIds)}</div>
-                                <div class="arrow-holder__right">
+                                <div class="slider" onload="scrollLeft(this)">${await getMovieHTMLFigures(movieIds)}</div>
+                                <div class="arrow-holder__right" onclick="scrollHorizontally(this, false)">
                                     <div class="slider__arrow"></div>
                                 </div>
                             </div>
