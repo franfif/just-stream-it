@@ -2,6 +2,7 @@ body {
   background-color: rgb(35, 49, 66);
   color: #ccc;
   position: relative;
+  font-family: "Gill Sans", sans-serif;
 }
 
 .slider {
