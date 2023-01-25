@@ -1,4 +1,4 @@
-/* API data */
+/* Constants */
 // Categories
 const categories = [
     {
@@ -55,7 +55,7 @@ async function getMovies(url) {
         .then(data => [data.results, data.next])
 }
 
-// Get movie data for a single movie from the API
+// Get movie data for a single movie from the title/id API
 async function getMovie(url) {
     return fetch(url)
         .then(res => res.json())
@@ -161,6 +161,7 @@ function makePlural(name, content) {
     }
 }
 
+// Add a new element to the modal element in the DOM
 function fillModalElement(key, name, content) {
     [name, content] = makePlural(name, content);
     switch (key) {
