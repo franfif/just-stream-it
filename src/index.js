@@ -1,4 +1,6 @@
 /* Constants */
+const MOVIES_PER_CATEGORY = 7;
+
 // Categories
 const categories = [
     {
@@ -71,34 +73,31 @@ async function getNMovieIds(url, numberOfMovies, movies = []) {
     } else {
         movies = movies.slice(0, numberOfMovies);
         const movieIds = movies.map(x => x.id);
-        // await storeMovieInfo(movieIds);
         return movieIds;
     }
 }
 
-// Store movie information to local variable so that 
+// Return movie info from ID, from local storage
+// If not in local storage, get info from API and put it in local storage
 async function getMovieInfo(id) {
-    // for (let id of ids) {
     let movieInfo = moviesFromApi.find(movie => movie.id === id)
     if (!movieInfo) {
         movieInfo = await getMovie(apiEndpoint + id)
         moviesFromApi.push(movieInfo);
     }
     return movieInfo;
-    // }
 }
 
-// Create html figure elements from movie data
+// Create html figure elements from movie IDs
 async function getMovieHTMLFigures(movieIds) {
     const movies = await Promise.all(movieIds.map(movieId => getMovieInfo(movieId)));
     let figures = "";
     movies.forEach(movie => {
         figures += `<figure movieId="${movie.id}" class="movie-id" onclick="openingModal(this.getAttribute('movieId'))">
                         <picture>
-                            <img
-                            src="${movie.image_url}"
-                            alt="${movie.original_title}"
-                            onerror="useDummyImage(this)">
+                            <img src="${movie.image_url}"
+                                alt="${movie.original_title}"
+                                onerror="useDummyImage(this)">
                         </picture>
                         <figcaption>${movie.original_title}</figcaption>
                     </figure>`;
@@ -106,7 +105,7 @@ async function getMovieHTMLFigures(movieIds) {
     return figures;
 }
 
-// Create html element with featured movie
+// Create html element with featured movie from movie ID
 async function getFeaturedMovieHTMLElement(movieId) {
     const movie = await getMovieInfo(movieId);
     const featuredMovie = `<div  class="featured-movie movie-id">
@@ -124,11 +123,13 @@ async function getFeaturedMovieHTMLElement(movieId) {
     return featuredMovie;
 }
 
+// Add Featured movie content to its html container
 async function fillFeaturedMovie(movieId) {
     const featuredMovieContainer = document.querySelector(".featured-movie__container");
     featuredMovieContainer.innerHTML = await getFeaturedMovieHTMLElement(movieId);
 }
 
+// Add category sections to their html container
 async function fillSliders(category, movieIds) {
     const newSection = `<section class="category"> 
                             <header>
@@ -154,11 +155,10 @@ function makePlural(name, content) {
     // Test if the array to test is an array that contains more than one element
     if (Array.isArray(content) && content.length > 1) {
         name += 's';
-        const formatter = new Intl.ListFormat('en', { style: 'long', type: 'conjunction' });
-        return [name, formatter.format(content)];
-    } else {
-        return [name, content];
+        formatter = new Intl.ListFormat('en', { style: 'long', type: 'conjunction' });
+        content = formatter.format(content);
     }
+    return [name, content];
 }
 
 // Add a new element to the modal element in the DOM
@@ -198,19 +198,18 @@ function fillModalElement(key, name, content) {
     modalList.innerHTML += `<li class="${key}">${name}: ${content}</li>`;
 }
 
+// Get movie info to fill sliders and featured movie container, if needed
 async function fillPage() {
     for (const category of categories) {
-        const movieIds = await getNMovieIds(apiEndpoint + category.param, category.featured ? 8 : 7);
-
+        const movieIds = await getNMovieIds(apiEndpoint + category.param, category.featured ? MOVIES_PER_CATEGORY + 1 : MOVIES_PER_CATEGORY);
         if (category.featured) {
             fillFeaturedMovie(movieIds.shift());
         }
-
         fillSliders(category, movieIds);
     };
 }
 
-// Get movie info and call function to fill the html modal element
+// Get movie info and call function to fill the modal element
 async function fillModal(movieId) {
     const movieInfo = await getMovieInfo(movieId);
     for (const key in movieFields) {
