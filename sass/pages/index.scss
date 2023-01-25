@@ -1,0 +1,14 @@
+@import "../components/featured-movie";
+
+.container {
+    position: absolute;
+    top: 71px;
+
+    @include larger-than-tablet {
+        top: 115px;
+    }
+}
+
+.no-scroll {
+    overflow: hidden;
+}
