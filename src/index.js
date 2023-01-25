@@ -47,42 +47,8 @@ const movieFields = {
     description: "Summary"
 };
 
-// Add a new element to the modal element in the DOM
-function populateModalElement(key, movieInfo) {
-    movieInfo = makePlural(key, movieInfo);
-    switch (key) {
-        case 'image_url':
-            document.querySelector(".modal__cover").setAttribute('src', movieInfo);
-            return;
-        case 'original_title':
-            document.querySelector(".modal__title").innerHTML = movieInfo;
-            return;
-        case 'date_published':
-            movieInfo = new Date(movieInfo).toLocaleDateString('en-us', { year: "numeric", month: "long", day: "numeric" })
-            break;
-        case 'duration':
-            movieInfo += " minutes";
-            break;
-        case 'worldwide_gross_income':
-            if (movieInfo) {
-                movieInfo = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(movieInfo);
-            } else {
-                movieInfo = 'Unknown revenue';
-            }
-            break;
-        case 'rated':
-            // Fix a typo in the backend
-            if (movieInfo === 'Not rated or unkown rating') {
-                movieInfo = 'Not rated or unknown rating'
-            }
-            break;
-    };
-
-    let modalList = document.querySelector(".modal__list");
-    modalList.innerHTML += `<li class="${key}">${movieFields[key]}: ${movieInfo}</li>`;
-}
-
-// Get movie data for multiple movies from the API
+/* Connection with the API */
+// Get array of movie data from the title API
 async function getMovies(url) {
     return fetch(url)
         .then(res => res.json())
@@ -95,7 +61,7 @@ async function getMovie(url) {
         .then(res => res.json())
 }
 
-// Return movie information from the API endpoint for a given number of movies
+// Return movie IDs from the API endpoint for a given number of movies
 async function getNMovieIds(url, numberOfMovies, movies = []) {
     const [newMovies, nextUrl] = await getMovies(url);
     movies = movies.concat(newMovies);
@@ -105,26 +71,29 @@ async function getNMovieIds(url, numberOfMovies, movies = []) {
     } else {
         movies = movies.slice(0, numberOfMovies);
         const movieIds = movies.map(x => x.id);
-        await storeMovieInfo(movieIds);
+        // await storeMovieInfo(movieIds);
         return movieIds;
     }
 }
 
-async function storeMovieInfo(ids) {
-    for (let id of ids) {
-        if (!moviesFromApi.some(movie => movie.id === id)) {
-            movieInfo = await getMovie(apiEndpoint + id)
-            moviesFromApi.push(movieInfo);
-        }
+// Store movie information to local variable so that 
+async function getMovieInfo(id) {
+    // for (let id of ids) {
+    let movieInfo = moviesFromApi.find(movie => movie.id === id)
+    if (!movieInfo) {
+        movieInfo = await getMovie(apiEndpoint + id)
+        moviesFromApi.push(movieInfo);
     }
+    return movieInfo;
+    // }
 }
 
 // Create html figure elements from movie data
-function getMovieHTMLFigures(movieIds) {
-    const movies = movieIds.map(movieId => moviesFromApi.filter(movie => movie.id === movieId)[0]);
+async function getMovieHTMLFigures(movieIds) {
+    const movies = await Promise.all(movieIds.map(movieId => getMovieInfo(movieId)));
     let figures = "";
     movies.forEach(movie => {
-        figures += `<figure id="${movie.id}" class="movie-id slide modal-movie-details--opener">
+        figures += `<figure movieId="${movie.id}" class="movie-id" onclick="openingModal(this.getAttribute('movieId'))">
                         <picture>
                             <img
                             src="${movie.image_url}"
@@ -138,9 +107,9 @@ function getMovieHTMLFigures(movieIds) {
 }
 
 // Create html element with featured movie
-function getFeaturedMovieHTMLElement(movieId) {
-    const movie = moviesFromApi.filter(movie => movie.id === movieId)[0];
-    const featuredMovie = `<div id="${movie.id}" class="featured-movie movie-id">
+async function getFeaturedMovieHTMLElement(movieId) {
+    const movie = await getMovieInfo(movieId);
+    const featuredMovie = `<div  class="featured-movie movie-id">
                                 <div class="featured-movie__title">${movie.original_title}</div>
                                 <btn class="featured-movie__button modal-movie-details--opener">
                                     <span class="arrow-right"></span><span>Play</span>
@@ -155,12 +124,12 @@ function getFeaturedMovieHTMLElement(movieId) {
     return featuredMovie;
 }
 
-function fillFeaturedMovie(movieId) {
+async function fillFeaturedMovie(movieId) {
     const featuredMovieContainer = document.querySelector(".featured-movie__container");
-    featuredMovieContainer.innerHTML = getFeaturedMovieHTMLElement(movieId);
+    featuredMovieContainer.innerHTML = await getFeaturedMovieHTMLElement(movieId);
 }
 
-function fillSliders(category, movieIds) {
+async function fillSliders(category, movieIds) {
     const newSection = `<section class="category"> 
                             <header>
                                 <h2 class="category__title">${category.name}</h2>
@@ -250,8 +219,8 @@ async function fillPage() {
 }
 
 // Get movie info and call function to fill the html modal element
-async function fillModal(url) {
-    const movieInfo = await getMovie(url);
+async function fillModal(movieId) {
+    const movieInfo = await getMovieInfo(movieId);
     for (const key in movieFields) {
         fillModalElement(key, movieFields[key], movieInfo[key]);
     }
