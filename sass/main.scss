@@ -15,7 +15,7 @@
     }
 }
 
-.best-movie {
+.featured-movie {
     display: grid;
     grid-template-areas:
         "ttl ttl ttl"
@@ -42,12 +42,12 @@
     }
 }
 
-.best-movie__title {
+.featured-movie__title {
     grid-area: ttl;
     font-size: 3rem;
 }
 
-.best-movie__button {
+.featured-movie__button {
     grid-area: btn;
     background-color: $third-color;
     width: 100px;
@@ -60,11 +60,11 @@
 }
 
 
-.best-movie__summary {
+.featured-movie__summary {
     grid-area: sum;
 }
 
-.best-movie__image {
+.featured-movie__image {
     grid-area: img;
 
     cursor: pointer;
