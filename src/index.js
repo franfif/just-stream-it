@@ -2,25 +2,21 @@
 // Categories
 const categories = [
     {
-        htmlClass: ".top-rated-movies",
         param: "?sort_by=-imdb_score",
         name: "Top Rated Movies",
         featured: true
     },
     {
-        htmlClass: ".first-category",
         param: "?genre=drama&sort_by=-imdb_score",
         name: "Drama",
         featured: false
     },
     {
-        htmlClass: ".second-category",
         param: "?genre=animation&sort_by=-imdb_score",
         name: "Animation",
         featured: false
     },
     {
-        htmlClass: ".third-category",
         param: "?genre=action&sort_by=-imdb_score",
         name: "Action",
         featured: false
@@ -165,7 +161,7 @@ function fillFeaturedMovie(movieId) {
 }
 
 function fillSliders(category, movieIds) {
-    const newSection = `<section class="category ${category.htmlClass}">
+    const newSection = `<section class="category"> 
                             <header>
                                 <h2 class="category__title">${category.name}</h2>
                             </header>
