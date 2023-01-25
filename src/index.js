@@ -138,7 +138,7 @@ async function fillSliders(category, movieIds) {
                                 <div class="arrow-holder__left" onclick="scrollHorizontally(this, true)">
                                     <div class="slider__arrow"></div>
                                 </div>
-                                <div class="slider" onload="scrollLeft(this)">${await getMovieHTMLFigures(movieIds)}</div>
+                                <div class="slider" >${await getMovieHTMLFigures(movieIds)}</div>
                                 <div class="arrow-holder__right" onclick="scrollHorizontally(this, false)">
                                     <div class="slider__arrow"></div>
                                 </div>
@@ -198,11 +198,6 @@ function fillModalElement(key, name, content) {
     modalList.innerHTML += `<li class="${key}">${name}: ${content}</li>`;
 }
 
-function slidersScrollLeftZero() {
-    const sliders = document.querySelectorAll(".slider");
-    sliders.forEach(slider => slider.scrollLeft = 0);
-}
-
 async function fillPage() {
     for (const category of categories) {
         const movieIds = await getNMovieIds(apiEndpoint + category.param, category.featured ? 8 : 7);
@@ -212,11 +207,7 @@ async function fillPage() {
         }
 
         fillSliders(category, movieIds);
-        slidersScrollLeftZero();
     };
-
-    // Call modalUp function to add modal opener on all figures
-    // modalUp();
 }
 
 // Get movie info and call function to fill the html modal element
