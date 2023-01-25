@@ -15,3 +15,6 @@ venv.bak/
 
 # API
 OCMovies-API-EN-FR/
+
+# MacOS
+.DS_Store
