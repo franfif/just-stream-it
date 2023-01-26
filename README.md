@@ -1,6 +1,7 @@
 <h1 align="center">
 JustStreamIt - Web User Interface
-<img alt="JustStreamIt logo" src="img/Logo_JustStreamIt.png" width="224px"/><br/>
+<br/>
+<img alt="JustStreamIt logo" src="img/Logo_JustStreamIt.png" width="224px"/>
 </h1>
 
 <h2>Introduction</h2>
