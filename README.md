@@ -4,10 +4,14 @@ JustStreamIt - Web User Interface
 </h1>
 
 <h2>Introduction</h2>
-This is a web user interface aiming to provide movie enthustiasts with information about movies. The ultimate goal is to enable users to stream movies directly from the interface.</br>
+This is a web user interface aiming to provide movie enthustiasts with information about movies. 
+
+The ultimate goal is to enable users to stream movies directly from the interface.</br>
 At this moment, the interface only displays movie posters and information about these movies.</br>
+
 The interface is composed of a navigation bar, a featured movie space, and three categories of movies.</br>
 Currently, the categories are Top-rated movies, Drama, Movies directed by Quentin Tarantino, and Movies featuring Bruce Willis.
+
 
 The user can scroll through the categories to find a movie that suits their desires and click on it to display more information.
 
