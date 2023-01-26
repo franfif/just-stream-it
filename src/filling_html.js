@@ -66,7 +66,8 @@ async function fillSliders(category, movieIds) {
                                     <div class="slider__arrow"></div>
                                 </div>
                             </div>
-                        </section>`
+                        </section>
+                        <hr>`
 
     const categoriesHTML = document.querySelector(".categories");
     categoriesHTML.innerHTML += newSection;
