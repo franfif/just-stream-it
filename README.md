@@ -1,5 +1,5 @@
 <h1 align="center">
-JustStreamIt - Web User Interface
+JustStreamIt - Web User Interface for a Python Web Application
 <br/>
 <img alt="JustStreamIt logo" src="img/Logo_JustStreamIt.png" width="224px"/>
 </h1>
