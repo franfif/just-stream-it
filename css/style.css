@@ -193,6 +193,14 @@ body {
   gap: 1ex;
   font-size: large;
   margin: 0;
+  text-align: center;
+}
+
+hr {
+  margin: 25px 20% 0;
+  background-color: #f95959;
+  height: 1px;
+  border-width: 0;
 }
 
 .pinning-header {
@@ -382,7 +390,7 @@ body {
   width: 80%;
 }
 .modal .modal__content .modal__close-btn {
-  color: #ccc;
+  color: #f95959;
   float: right;
   font-size: 28px;
   font-weight: bold;
