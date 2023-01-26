@@ -14,13 +14,13 @@ const CATEGORIES = [
         featured: false
     },
     {
-        param: "?genre=animation&sort_by=-imdb_score",
-        name: "Animation",
+        param: "?sort_by=-imdb_score&director_contains=quentin+tarantino",
+        name: "Tarantino's movies",
         featured: false
     },
     {
-        param: "?genre=action&sort_by=-imdb_score",
-        name: "Action",
+        param: "?sort_by=-imdb_score&actor=bruce+willis",
+        name: "Featuring Bruce Willis",
         featured: false
     }
 ];
