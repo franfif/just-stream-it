@@ -129,7 +129,7 @@
 
 .menu__button {
 
-    @include menu__button--regular {}
+    @include menu__button--regular;
 
     &::before {
         @include menu__button--regular {
