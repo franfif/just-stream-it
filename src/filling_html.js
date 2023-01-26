@@ -118,7 +118,7 @@ function fillModalElement(key, name, content) {
     };
 
     let modalList = document.querySelector(".modal__list");
-    modalList.innerHTML += `<li class="${key}">${name}: ${content}</li>`;
+    modalList.innerHTML += `<li class="modal__list-item"><span class="modal__list-key">${name} :</span> ${content}</li>`;
 }
 
 // Get movie info to fill sliders and featured movie container, if needed
