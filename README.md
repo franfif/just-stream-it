@@ -11,7 +11,7 @@ The ultimate goal is to enable users to stream movies directly from the interfac
 At this moment, the interface only displays movie posters and information about these movies.</br>
 
 The interface is composed of a navigation bar, a featured movie space, and three categories of movies.</br>
-Currently, the categories are Top-rated movies, Drama, Movies directed by Quentin Tarantino, and Movies featuring Bruce Willis.
+Currently, the categories are Top-rated movies, Drama, Movies directed by Quentin Tarantino, and Movies related to Monty Python.
 
 
 The user can scroll through the categories to find a movie that suits their desires and click on it to display more information.
@@ -32,7 +32,7 @@ The interface contains the following zones:
 - A "Top-Rated Movies" [category](#categories): This zone displays the seven next-best-rated movies. The user can scroll through them using arrows on the left and right of the slider.</br>
 - A "Drama" category: Shows the seven best-rated movies of the "Drama" genre. 
 - A "Tarantino's movies" [category](#categories): Shows the seven best-rated movies directed by Quentin Tarantino.</br>
-- A "Featuring Bruce Willis" [category](#categories): Shows the seven best-rated movies starring Bruce Willis.
+- A "If you like Monty Python" [category](#categories): Shows the seven best-rated movies starring Graham Chapman, one of six members of Monty Python.
 
 ### Navigation bar
 The navigation bar is always visible for reference and ease of navigation. It reduces when the page is scrolled down.

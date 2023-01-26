@@ -19,8 +19,8 @@ const CATEGORIES = [
         featured: false
     },
     {
-        param: "?sort_by=-imdb_score&actor=bruce+willis",
-        name: "Featuring Bruce Willis",
+        param: "?sort_by=-imdb_score&actor=graham+chapman",
+        name: "If you like Monty Python",
         featured: false
     }
 ];
