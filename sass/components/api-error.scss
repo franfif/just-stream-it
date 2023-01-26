@@ -1,0 +1,15 @@
+.api-error {
+    font-size: 1.5em;
+    text-align: center;
+    line-height: 1.5em;
+    margin-top: 100px;
+
+    @include larger-than-phone {
+        font-size: 2em;
+    }
+
+    a {
+        text-decoration: none;
+        color: $third-color;
+    }
+}
