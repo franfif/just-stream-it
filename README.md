@@ -4,7 +4,7 @@ JustStreamIt - Web User Interface
 <img alt="JustStreamIt logo" src="img/Logo_JustStreamIt.png" width="224px"/>
 </h1>
 
-<h2>Introduction</h2>
+## Introduction
 This is a web user interface aiming to provide movie enthustiasts with information about movies.</br> 
 
 
