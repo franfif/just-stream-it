@@ -413,5 +413,33 @@ hr {
     margin: 2% 5%;
   }
 }
+.modal .modal__content .modal__title {
+  text-align: center;
+}
+@media only screen and (min-width: 600px) {
+  .modal .modal__content .modal__title {
+    text-align: left;
+  }
+}
+.modal .modal__content .modal__list {
+  list-style-type: none;
+  padding-inline-start: 15px;
+  padding-inline-end: 15px;
+}
+@media only screen and (min-width: 600px) {
+  .modal .modal__content .modal__list {
+    padding-inline-start: 40px;
+    padding-inline-end: 40px;
+  }
+}
+.modal .modal__content .modal__list .modal__list-item {
+  padding-top: 9px;
+}
+.modal .modal__content .modal__list .modal__list-key {
+  font-style: normal;
+  font-weight: 700;
+  color: rgb(35, 49, 66);
+  padding-right: 6px;
+}
 
 /*# sourceMappingURL=style.css.map */
