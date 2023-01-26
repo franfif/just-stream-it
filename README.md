@@ -4,9 +4,9 @@ JustStreamIt - Web User Interface
 </h1>
 
 <h2>Introduction</h2>
-This is a web user interface aiming to provide movie enthustiasts with information about movies. The ultimate goal is to enable users to stream movies directly from this interface.</br>
-At this moment, the interface only displays movie images and information about these movies.</br>
-The interface is composed of a navigation bar, a featured movie space, and a few categories of movies.</br>
+This is a web user interface aiming to provide movie enthustiasts with information about movies. The ultimate goal is to enable users to stream movies directly from the interface.</br>
+At this moment, the interface only displays movie posters and information about these movies.</br>
+The interface is composed of a navigation bar, a featured movie space, and three categories of movies.</br>
 Currently, the categories are Top-rated movies, Drama, Movies directed by Quentin Tarantino, and Movies featuring Bruce Willis.
 
 The user can scroll through the categories to find a movie that suits their desires and click on it to display more information.
@@ -14,9 +14,9 @@ The user can scroll through the categories to find a movie that suits their desi
 ## Installation
 This project is stored locally. To display the interface, clone this project to your own local environment.
 
-In order to access the data with the movie information, install and execute the OCMovies-API REST API application. You can find all the information [here](https://github.com/OpenClassrooms-Student-Center/OCMovies-API-EN-FR).
+In order to access the data with the movie information, install and execute the [OCMovies-API REST API application](https://github.com/OpenClassrooms-Student-Center/OCMovies-API-EN-FR). You can find all the information [here](https://github.com/OpenClassrooms-Student-Center/OCMovies-API-EN-FR).
 
-Once the OCMovies-API app is up and running, open [index.html](index.html) on your browser.
+Once the [OCMovies-API app](https://github.com/OpenClassrooms-Student-Center/OCMovies-API-EN-FR) is up and running, open [index.html](index.html) on your browser.
 
 All major browsers are supported.
 
