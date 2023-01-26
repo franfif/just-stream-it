@@ -6,6 +6,7 @@ JustStreamIt - Web User Interface
 <h2>Introduction</h2>
 This is a web user interface aiming to provide movie enthustiasts with information about movies. 
 
+
 The ultimate goal is to enable users to stream movies directly from the interface.</br>
 At this moment, the interface only displays movie posters and information about these movies.</br>
 
