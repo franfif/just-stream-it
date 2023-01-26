@@ -40,5 +40,36 @@
                 margin: 2% 5%;
             }
         }
+
+        .modal__title {
+            text-align: center;
+
+            @include larger-than-phone {
+                text-align: left;
+            }
+        }
+
+        .modal__list {
+            list-style-type: none;
+
+            padding-inline-start: 15px;
+            padding-inline-end: 15px;
+
+            @include larger-than-phone {
+                padding-inline-start: 40px;
+                padding-inline-end: 40px;
+            }
+
+            .modal__list-item {
+                padding-top: 9px;
+            }
+
+            .modal__list-key {
+                font-style: normal;
+                font-weight: 700;
+                color: rgba(35, 49, 66, 1);
+                padding-right: 6px;
+            }
+        }
     }
 }
