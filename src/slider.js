@@ -10,3 +10,11 @@ function scrollHorizontally(arrow, toTheLeft = false) {
         behavior: 'smooth'
     });
 }
+
+function leftScroll(arrow) {
+    scrollHorizontally(arrow, true);
+}
+
+function rightScroll(arrow) {
+    scrollHorizontally(arrow);
+}
