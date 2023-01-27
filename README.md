@@ -20,7 +20,7 @@ The user can scroll through the categories to find a movie that suits their desi
 ## Installation
 This project is stored locally. To display the interface, clone this project to your own local environment.
 
-In order to access the data with the movie information, install and execute the [OCMovies-API REST API application](https://github.com/OpenClassrooms-Student-Center/OCMovies-API-EN-FR). You can find all the information [here](https://github.com/OpenClassrooms-Student-Center/OCMovies-API-EN-FR).
+In order to access the data with the movie information, install and execute the [OCMovies-API REST API application](https://github.com/OpenClassrooms-Student-Center/OCMovies-API-EN-FR). You can find all the information about the installation [here](https://github.com/OpenClassrooms-Student-Center/OCMovies-API-EN-FR#installation).
 
 Once the [OCMovies-API app](https://github.com/OpenClassrooms-Student-Center/OCMovies-API-EN-FR) is up and running, open the file [index.html](index.html) on your browser.
 
