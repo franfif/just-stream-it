@@ -7,8 +7,9 @@ async function getMovies(url) {
             else { return res.json() }
         })
         .then(data => {
-            if (!res.ok) { console.log(res) }
+            if (!Array.isArray(data.results)) { console.log(data) }
             else { return [data.results, data.next] }
+            console.log(data);
         })
         .catch((error) => {
             api_error();
