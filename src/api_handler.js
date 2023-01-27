@@ -2,8 +2,14 @@
 // Get array of movie data from the title API
 async function getMovies(url) {
     return fetch(url)
-        .then(res => { if (!res.ok) { console.log(res) } else { return res.json() } })
-        .then(data => [data.results, data.next])
+        .then(res => {
+            if (!res.ok) { console.log(res) }
+            else { return res.json() }
+        })
+        .then(data => {
+            if (!res.ok) { console.log(res) }
+            else { return [data.results, data.next] }
+        })
         .catch((error) => {
             api_error();
             console.error('Error:', error);
@@ -13,7 +19,10 @@ async function getMovies(url) {
 // Get movie data for a single movie from the title/id API
 async function getMovie(url) {
     return fetch(url)
-        .then(res => { if (!res.ok) { console.log(res) } else { return res.json() } })
+        .then(res => {
+            if (!res.ok) { console.log(res) }
+            else { return res.json() }
+        })
         .catch((error) => {
             api_error();
             console.error('Error:', error);
