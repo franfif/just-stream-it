@@ -14,7 +14,7 @@ const CATEGORIES = [
         featured: false
     },
     {
-        param: "?sort_by=-imdb_score&director_contains=quentin+tarantino",
+        param: "?sort_by=-imdb_score&director=quentin+tarantino",
         name: "Tarantino's movies",
         featured: false
     },
@@ -29,7 +29,8 @@ const CATEGORIES = [
 const API_ENDPOINT = "http://localhost:8000/api/v1/titles/";
 
 /* Movie information */
-// Array where all the movie information downloaded from the API will be stored, refreshed everytime the page is refreshed
+// Array where all the movie information downloaded from the API will be stored, 
+// emptied everytime the page is refreshed.
 const MOVIES_FROM_API = [];
 
 // All fields and the matching UI name 
