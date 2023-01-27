@@ -40,7 +40,8 @@ function api_error() {
     container.innerHTML += `<div class='api-error'>
         Oops, something went wrong...</br> 
         Did you install and launch the OCMovies-API REST API application?</br>
-        <a href='https://github.com/OpenClassrooms-Student-Center/OCMovies-API-EN-FR'>
+        <a href='https://github.com/OpenClassrooms-Student-Center/OCMovies-API-EN-FR#Installation' 
+        target="_blank" rel="noopener noreferrer">
             Click here for more information
         </a>
     </div>`;
