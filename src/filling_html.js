@@ -62,7 +62,7 @@ async function getFeaturedMovieHTMLElement(movieId) {
                                 onclick="openingModal(this.getAttribute('movieId'))">
                                     <span class="arrow-right"></span><span>Play</span>
                                 </btn>
-                                <div class="featured-movie__summary">${movie.long_description}</div>
+                                <div class="featured-movie__summary">${movie.description}</div>
                                 <div movieId="${movie.id}" class="featured-movie__image" 
                                 onclick="openingModal(this.getAttribute('movieId'))">
                                     <img src="${movie.image_url}"
