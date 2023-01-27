@@ -1,4 +1,5 @@
 /* Filling of HTML Page */
+
 // Return movie info from ID, from local storage
 // If not in local storage, get info from API and put it in local storage
 async function getMovieInfo(id) {
@@ -10,12 +11,14 @@ async function getMovieInfo(id) {
     return movieInfo;
 }
 
+/* CATEGORIES */
 // Create html figure elements from movie IDs
 async function getMovieHTMLFigures(movieIds) {
     const movies = await Promise.all(movieIds.map(movieId => getMovieInfo(movieId)));
     let figures = "";
     movies.forEach(movie => {
-        figures += `<figure movieId="${movie.id}" class="movie-id" onclick="openingModal(this.getAttribute('movieId'))">
+        figures += `<figure movieId="${movie.id}" class="movie-id" 
+                    onclick="openingModal(this.getAttribute('movieId'))">
                         <picture>
                             <img src="${movie.image_url}"
                                 alt="${movie.original_title}"
@@ -25,30 +28,6 @@ async function getMovieHTMLFigures(movieIds) {
                     </figure>`;
     });
     return figures;
-}
-
-// Create html element with featured movie from movie ID
-async function getFeaturedMovieHTMLElement(movieId) {
-    const movie = await getMovieInfo(movieId);
-    const featuredMovie = `<div  class="featured-movie movie-id">
-                                <div class="featured-movie__title">${movie.original_title}</div>
-                                <btn movieId="${movie.id}" class="featured-movie__button" onclick="openingModal(this.getAttribute('movieId'))">
-                                    <span class="arrow-right"></span><span>Play</span>
-                                </btn>
-                                <div class="featured-movie__summary">${movie.long_description}</div>
-                                <div movieId="${movie.id}" class="featured-movie__image" onclick="openingModal(this.getAttribute('movieId'))">
-                                    <img src="${movie.image_url}"
-                                        alt="${movie.title}"
-                                        onerror="useDummyImage(this)">
-                                </div>
-                            </div>`;
-    return featuredMovie;
-}
-
-// Add Featured movie content to its html container
-async function fillFeaturedMovie(movieId) {
-    const featuredMovieContainer = document.querySelector(".featured-movie__container");
-    featuredMovieContainer.innerHTML = await getFeaturedMovieHTMLElement(movieId);
 }
 
 // Add category sections to their html container
@@ -73,6 +52,47 @@ async function fillSliders(category, movieIds) {
     categoriesHTML.innerHTML += newSection;
 }
 
+/* FEATURED MOVIE */
+// Create html element with featured movie from movie ID
+async function getFeaturedMovieHTMLElement(movieId) {
+    const movie = await getMovieInfo(movieId);
+    const featuredMovie = `<div  class="featured-movie movie-id">
+                                <div class="featured-movie__title">${movie.original_title}</div>
+                                <btn movieId="${movie.id}" class="featured-movie__button" 
+                                onclick="openingModal(this.getAttribute('movieId'))">
+                                    <span class="arrow-right"></span><span>Play</span>
+                                </btn>
+                                <div class="featured-movie__summary">${movie.long_description}</div>
+                                <div movieId="${movie.id}" class="featured-movie__image" 
+                                onclick="openingModal(this.getAttribute('movieId'))">
+                                    <img src="${movie.image_url}"
+                                        alt="${movie.title}"
+                                        onerror="useDummyImage(this)">
+                                </div>
+                            </div>`;
+    return featuredMovie;
+}
+
+// Add Featured movie content to its html container
+async function fillFeaturedMovie(movieId) {
+    const featuredMovieContainer = document.querySelector(".featured-movie__container");
+    featuredMovieContainer.innerHTML = await getFeaturedMovieHTMLElement(movieId);
+}
+
+/* FEATURED MOVIE AND CATEGORIES FILLING */
+// Get movie info to fill sliders and featured movie container, when needed
+async function fillPage() {
+    for (const category of CATEGORIES) {
+        const movieIds = await getNMovieIds(API_ENDPOINT + category.param,
+            category.featured ? MOVIES_PER_CATEGORY + 1 : MOVIES_PER_CATEGORY);
+        if (category.featured) {
+            fillFeaturedMovie(movieIds.shift());
+        }
+        fillSliders(category, movieIds);
+    };
+}
+
+/* MODAL FILLING */
 // Change movieFields value to plural and return array to string list
 function makePlural(name, content) {
     // Test if the array to test is an array that contains more than one element
@@ -95,14 +115,16 @@ function fillModalElement(key, name, content) {
             document.querySelector(".modal__title").innerHTML = content;
             return;
         case 'date_published':
-            content = new Date(content).toLocaleDateString('en-us', { year: "numeric", month: "long", day: "numeric" })
+            content = new Date(content).toLocaleDateString('en-us',
+                { year: "numeric", month: "long", day: "numeric" })
             break;
         case 'duration':
             content += " minutes";
             break;
         case 'worldwide_gross_income':
             if (content) {
-                content = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(content);
+                content = new Intl.NumberFormat('en-US',
+                    { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(content);
             } else {
                 content = 'Unknown revenue';
             }
@@ -118,18 +140,8 @@ function fillModalElement(key, name, content) {
     };
 
     let modalList = document.querySelector(".modal__list");
-    modalList.innerHTML += `<li class="modal__list-item"><span class="modal__list-key">${name} :</span> ${content}</li>`;
-}
-
-// Get movie info to fill sliders and featured movie container, if needed
-async function fillPage() {
-    for (const category of CATEGORIES) {
-        const movieIds = await getNMovieIds(API_ENDPOINT + category.param, category.featured ? MOVIES_PER_CATEGORY + 1 : MOVIES_PER_CATEGORY);
-        if (category.featured) {
-            fillFeaturedMovie(movieIds.shift());
-        }
-        fillSliders(category, movieIds);
-    };
+    modalList.innerHTML += `<li class="modal__list-item"><span class="modal__list-key">${name}:</span>
+                             ${content}</li>`;
 }
 
 // Get movie info and call function to fill the modal element
