@@ -62,7 +62,7 @@ function api_error(error) {
                             Click here for more information
                         </a>`;
     } else {
-        // Massage for unsuccessful http response
+        // Message for unsuccessful http response
         errorMessage += `${error}</br>
                         Please contact help@juststreamit.com.`;
     }
