@@ -2,31 +2,24 @@
 // Get array of movie data from the title API
 async function getMovies(url) {
     return fetch(url)
-        .then(res => {
-            if (!res.ok) { console.log(res) }
-            else { return res.json() }
-        })
+        .then(checkError)
         .then(data => {
             if (!Array.isArray(data.results)) { console.log(data) }
             else { return [data.results, data.next] }
-            console.log(data);
         })
         .catch((error) => {
-            api_error();
-            console.error('Error:', error);
+            api_error(error);
+            console.error(error);
         });
 }
 
 // Get movie data for a single movie from the title/id API
 async function getMovie(url) {
     return fetch(url)
-        .then(res => {
-            if (!res.ok) { console.log(res) }
-            else { return res.json() }
-        })
+        .then(checkError)
         .catch((error) => {
-            api_error();
-            console.error('Error:', error);
+            api_error(error);
+            console.error(error);
         });
 }
 
@@ -44,15 +37,36 @@ async function getNMovieIds(url, numberOfMovies, movies = []) {
     }
 }
 
-function api_error() {
+// Check response and throw error if response is not successful
+function checkError(response) {
+    if (response.status >= 200 && response.status <= 299) {
+        return response.json();
+    } else {
+        throw Error(response.status);
+    }
+}
+
+// Callback for error catching
+function api_error(error) {
     const container = document.querySelector(".container");
     container.style.width = '100%';
-    container.innerHTML += `<div class='api-error'>
-        Oops, something went wrong...</br> 
-        Did you install and launch the OCMovies-API REST API application?</br>
-        <a href='https://github.com/OpenClassrooms-Student-Center/OCMovies-API-EN-FR#Installation' 
-        target="_blank" rel="noopener noreferrer">
-            Click here for more information
-        </a>
-    </div>`;
-} 
+
+    let errorMessage = `<div class='api-error'>
+        Oops, something went wrong...</br>`
+
+    // Message if netwrok error, no access to API
+    if (error.message === "Failed to fetch") {
+        errorMessage += `Did you install and launch the OCMovies-API REST API application?</br>
+                        <a href='https://github.com/OpenClassrooms-Student-Center/OCMovies-API-EN-FR#Installation' 
+                                target="_blank" rel="noopener noreferrer">
+                            Click here for more information
+                        </a>`;
+    } else {
+        // Massage for unsuccessful http response
+        errorMessage += `${error}</br>
+                        Please contact help@juststreamit.com.`;
+    }
+    errorMessage += `</div >`;
+
+    container.innerHTML += errorMessage;
+}
